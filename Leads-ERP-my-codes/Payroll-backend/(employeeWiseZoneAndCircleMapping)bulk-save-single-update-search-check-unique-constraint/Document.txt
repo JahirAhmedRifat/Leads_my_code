@@ -1,0 +1,23 @@
+1. Bulk save and single update.
+2. check custom unique constraint and show where found.
+3. like search criteria...
+
+
+------------- extra info --------------
+
+------------------ Entity lair -----------------
+@Entity
+@Table(
+        name = "employee_wise_zone_and_circle_mapping",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "uk_tax_year_employee_id",
+                        columnNames = {"tax_year", "employee_id"}
+                )
+        }
+)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class EmployeeWiseZoneAndCircleMapping extends BaseEntity {

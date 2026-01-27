@@ -1,0 +1,365 @@
+
+------------------- find by bonus year,bonus policy and bonus type /// From yearly bonus setup ------------
+
+Post: http://localhost:8106/payroll/v1/yearly-bonus-setup/getData
+
+Request: 
+		{
+		   "bonusYear": 2030,
+		   "bonusPolicy": 2,
+		   "bonusType": "Durga Puja"
+		}
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"id": 63,
+				"uuid": "a02beceb-e1d4-4680-892b-880197b20dca",
+				"bonusYear": 2030,
+				"bonusPolicy": 2,
+				"bonusType": "Durga Puja",
+				"bonusDate": "2026-01-30",
+				"allReligions": false,
+				"religion": 3,
+				"taxable": false,
+				"isAdjustWithSalary": false,
+				"salaryYear": null,
+				"salaryMonth": null,
+				"isAppraisalRatio": false,
+				"appraisalPeriod": 1,
+				"appraisalPhase": "P05",
+				"isDeleted": false
+			},
+			"status": true
+		}
+		
+------------------- find By id(which is "bonusPolicy": 2, of yearly-bonus-setup) and get which type of bonus I take From bonus_policy table ------------
+
+Get: http://localhost:8106/payroll/v1/bonus-policy/id/2   // id
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "82ed60c3-6726-4f9c-aba0-132e89b85bdf",
+				"policyId": "BP02",
+				"policyName": "policy ",
+				"miniServiceLen": 6,
+				"miniServiceLenUnit": "month",  // day
+				"serviceLenBasedOn": "joiningDate"      // "confirmationDate"
+				"bonusTypeUuids": [
+					"7fbee892-d166-4afe-87c9-6a952247fe13",
+					"752d3eca-59a8-4168-aee9-53426794ec06"
+				],
+				"isActive": true,
+				"isProrataBasis": false,
+				"considerType": "basicPercent",  //grossPercent , fixedAmount
+				"considerValue": 100,
+				"minimumBonusAmount": 2000.0,
+				"isDeleted": false
+			},
+			"status": true
+		}
+------------------- apprisal phases data collect ------------
+
+Get: http://localhost:8106/payroll/v1/apprisal-ratio-phase
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": [
+				{
+					"id": 21,
+					"uuid": "db587d6a-a50d-4b83-a5b3-f1b3b9593d7d",
+					"phaseId": "P04",
+					"outstanding": 2.9,
+					"excellent": 4.6,
+					"veryGood": 5.0,
+					"good": 5.0,
+					"marginal": 4.0,
+					"unsatisfactory": 3.6,
+					"isDeleted": false
+				},
+				{
+					"id": 22,
+					"uuid": "98007007-0539-4d0a-a2ad-b6e0bbfe0c3d",
+					"phaseId": "P05",
+					"outstanding": 4.0,
+					"excellent": 4.0,
+					"veryGood": 3.7,
+					"good": 5.0,
+					"marginal": 5.0,
+					"unsatisfactory": 5.0,
+					"isDeleted": false
+				},
+				{
+					"id": 1,
+					"uuid": "ccd50221-695b-464e-8f09-552c8dea1138",
+					"phaseId": "P01",
+					"outstanding": 2.9,
+					"excellent": 3.9,
+					"veryGood": 5.0,
+					"good": 4.6,
+					"marginal": 4.0,
+					"unsatisfactory": 3.7,
+					"isDeleted": false
+				}
+			],
+			"status": true
+		}
+
+		
+------------------- find By BonusId and get employeeList From festival-eligibility table ------------
+
+Get: http://localhost:8106/payroll/v1/festival-eligibility/getEmployeeInfoList/a02beceb-e1d4-4680-892b-880197b20dca  // bonusId
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": [
+				{
+					"employeeId": "199128122027",
+					"employeeNameEn": "Jahir",
+					"department": "1",
+					"corporateDesignation": "41",
+					"jobSector": "Corporate",
+					"eligibilityStatus": "Eligible",
+					"joiningDate": "2022-07-01",
+					"lastJobSector": "Operations",
+					"serviceBreakInDays": 0,
+					"lastWorkingDate": null,
+					"bonusId": "a02beceb-e1d4-4680-892b-880197b20dca",
+					"remarks": "Auto eligible"
+				},
+				{
+					"employeeId": "101",
+					"employeeNameEn": "abc",
+					"department": "1",
+					"corporateDesignation": "41",
+					"jobSector": "Corporate",
+					"eligibilityStatus": "Eligible",
+					"joiningDate": "2022-07-01",
+					"lastJobSector": "Operations",
+					"serviceBreakInDays": 0,
+					"lastWorkingDate": null,
+					"bonusId": "a02beceb-e1d4-4680-892b-880197b20dca",
+					"remarks": "Auto eligible"
+				}
+			],
+			"status": true
+		}
+		
+-------- find By employeeId and get employee salary structure and breakup salary structure From (salary structure & breakup salary structure table) -----
+
+Post: http://localhost:8106/payroll/v1/employee-salary/get-structures-by-emp-ids
+
+Request: 
+		{
+			"referenceCodes": [
+				"199128122027",
+				"13-36393-2"
+		  ]
+		}
+
+Response: 
+		{
+			"message": "",
+			"payload": [
+				{
+					"employeeId": "13-36393-2",
+					"employeeName": "demo",
+					"designation": 0,
+					"department": 0,
+					"gradeId": 2,
+					"gradeUuid": "a53e607d-d39d-4d28-be20-abfdd2dba7cd",
+					"structureUuid": "a69c05e4-9449-465f-ac22-b79e1a77bd06",
+					"structureNo": "STR-2026-0001",
+					"salaryType": "distributed",
+					"grossSalary": 40000.0,
+					"effectiveDate": "2026-01-19T00:00:00",
+					"breakups": [
+						{
+							"salaryStructureBreakup": {
+								"id": 27,
+								"uuid": "699dc643-b1c7-4a6f-a9eb-33f1dc6cdd29",
+								"breakupName": "Mobile Allowance",
+								"type": "range",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 650.0,
+							"baseValue": 650.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 28,
+								"uuid": "0669ce35-3d13-4ad9-8033-4ecaf57d60c7",
+								"breakupName": "Boishakhi Allowance",
+								"type": "percent_basic",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 0.0,
+							"baseValue": 0.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 29,
+								"uuid": "6ff5b3ac-a6d9-459e-9323-41464ac024d6",
+								"breakupName": "Basic",
+								"type": "range",
+								"isBasic": true,
+								"isTaxable": null
+							},
+							"finalAmount": 36850.0,
+							"baseValue": 36850.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 30,
+								"uuid": "4e5e5fb2-3169-4411-be39-59dac3384c59",
+								"breakupName": "House Rent Allowance",
+								"type": "fixed",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 2500.0,
+							"baseValue": 2500.0
+						}
+					],
+					"isActive": true
+				},
+				{
+					"employeeId": "199128122027",
+					"employeeName": "demo",
+					"designation": 0,
+					"department": 0,
+					"gradeId": 2,
+					"gradeUuid": "a53e607d-d39d-4d28-be20-abfdd2dba7cd",
+					"structureUuid": "a69c05e4-9449-465f-ac22-b79e1a77bd06",
+					"structureNo": "STR-2026-0001",
+					"salaryType": "distributed",
+					"grossSalary": 40000.0,
+					"effectiveDate": "2026-01-19T00:00:00",
+					"breakups": [
+						{
+							"salaryStructureBreakup": {
+								"id": 27,
+								"uuid": "699dc643-b1c7-4a6f-a9eb-33f1dc6cdd29",
+								"breakupName": "Mobile Allowance",
+								"type": "range",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 650.0,
+							"baseValue": 650.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 28,
+								"uuid": "0669ce35-3d13-4ad9-8033-4ecaf57d60c7",
+								"breakupName": "Boishakhi Allowance",
+								"type": "percent_basic",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 0.0,
+							"baseValue": 0.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 29,
+								"uuid": "6ff5b3ac-a6d9-459e-9323-41464ac024d6",
+								"breakupName": "Basic",
+								"type": "range",
+								"isBasic": true,
+								"isTaxable": null
+							},
+							"finalAmount": 36850.0,
+							"baseValue": 36850.0
+						},
+						{
+							"salaryStructureBreakup": {
+								"id": 30,
+								"uuid": "4e5e5fb2-3169-4411-be39-59dac3384c59",
+								"breakupName": "House Rent Allowance",
+								"type": "fixed",
+								"isBasic": false,
+								"isTaxable": null
+							},
+							"finalAmount": 2500.0,
+							"baseValue": 2500.0
+						}
+					],
+					"isActive": true
+				}
+			],
+			"status": true
+		}
+
+
+
+
+
+
+------ get single employee from festival-eligibility // find by - employeeId /bonusId   ---------
+
+Get: http://localhost:8106/payroll/v1/festival-eligibility/getEmployeeInfo/199128122027/a02beceb-e1d4-4680-892b-880197b20dca
+
+Response: 
+	{
+		"message": "Employee information fetched successfully",
+		"payload": {
+			"employeeId": "199128122027",
+			"employeeNameEn": "Mahedi",
+			"department": "1",
+			"corporateDesignation": "6",
+			"jobSector": "1",
+			"eligibilityStatus": "Eligible",
+			"joiningDate": "2025-09-21",
+			"confirmationDate": null,
+			"lastJobSector": "N/A",
+			"serviceBreakInDays": null,
+			"lastWorkingDate": null,
+			"bonusId": "a02beceb-e1d4-4680-892b-880197b20dca",
+			"remarks": null
+		},
+		"status": true
+	}
+		
+
+----------------------------------------- Final Auto Bonus Generation Response ---------------------
+
+Post: http://localhost:8106/payroll/v1/BonusProcessing/getBonusInfo
+
+Request:
+		{
+		  "isAllEmployees": true,
+		  "bonusYear": 2030,
+		  "bonusPolicy": 2,
+		  "bonusType": "Durga Puja"
+		}
+
+Response: 
+		[
+			{
+				"employeeId": "13-36393-2",
+				"designation": 4,
+				"department": 1,
+				"bonusAmount": 73700.00,
+				"bonusDate": "2026-01-25",
+				"bonusId": "a02beceb-e1d4-4680-892b-880197b20dca",
+				"bonusYear": 2030
+			},
+			{
+				"employeeId": "199128122027",
+				"designation": 6,
+				"department": 1,
+				"bonusAmount": 73700.00,
+				"bonusDate": "2026-01-25",
+				"bonusId": "a02beceb-e1d4-4680-892b-880197b20dca",
+				"bonusYear": 2030
+			}
+		]

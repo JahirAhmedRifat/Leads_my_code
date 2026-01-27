@@ -1,0 +1,5 @@
+1. single save also check unique constraint.
+2. single update also check unique constraint.
+3. search with request body wise 
+4. find 
+5. get list ans soft-delete works from base controller .

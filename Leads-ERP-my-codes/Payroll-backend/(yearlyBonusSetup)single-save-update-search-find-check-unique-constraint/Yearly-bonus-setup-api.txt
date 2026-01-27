@@ -1,0 +1,260 @@
+
+
+			----------------- Yearly Bonus Setup -------------------
+
+------------------- Single save ------------
+Post: http://localhost:8106/payroll/v1/yearly-bonus-setup
+
+Request:
+	{
+	  "bonusYear": 2025,
+	  "bonusPolicy": 4,
+	  "bonusType": "abc",
+	  "bonusDate": "2025-03-15",
+	  "allReligions": true,
+	  "religion": null,
+	  "taxable":true,
+	  "isAdjustWithSalary": true,
+	  "salaryYear": 2025,
+	  "salaryMonth": "March",
+	  "isAppraisalRatio": true,
+	  "appraisalPeriod": 1,
+	  "appraisalPhase": "p1"
+	}
+	
+Response: 
+	{
+		"message": "Resource Create Successfully",
+		"payload": {
+			"id": 4,
+			"uuid": "ec74f585-dc57-4740-99e9-6b88a9830613",
+			"bonusYear": 2025,
+			"bonusPolicy": 4,
+			"bonusType": "abc",
+			"bonusDate": "2025-03-15",
+			"allReligions": true,
+			"religion": null,
+			"taxable": true,
+			"isAdjustWithSalary": true,
+			"salaryYear": 2025,
+			"salaryMonth": "March",
+			"isAppraisalRatio": true,
+			"appraisalPeriod": 1,
+			"appraisalPhase": "p1",
+			"isDeleted": false
+		},
+		"status": true
+	}
+	
+------------------- Single Update ------------
+
+Put: http://localhost:8106/payroll/v1/yearly-bonus-setup
+
+Request:
+		{
+			"uuid": "ec74f585-dc57-4740-99e9-6b88a9830613",
+			"bonusYear": 2025,
+			"bonusPolicy": 5,
+			"bonusType": "abc",
+			"bonusDate": "2025-03-15",
+			"allReligions": true,
+			"religion": null,
+			"taxable": false,
+			"isAdjustWithSalary": true,
+			"salaryYear": 2025,
+			"salaryMonth": "March",
+			"isAppraisalRatio": true,
+			"appraisalPeriod": 1,
+			"appraisalPhase": "p1",
+			"isDeleted": false
+		}
+	
+Response: 
+	{
+		"message": "Resource Update Successfully",
+		"payload": {
+			"id": 4,
+			"uuid": "ec74f585-dc57-4740-99e9-6b88a9830613",
+			"bonusYear": 2025,
+			"bonusPolicy": 5,
+			"bonusType": "abc",
+			"bonusDate": "2025-03-15",
+			"allReligions": true,
+			"religion": null,
+			"taxable": false,
+			"isAdjustWithSalary": true,
+			"salaryYear": 2025,
+			"salaryMonth": "March",
+			"isAppraisalRatio": true,
+			"appraisalPeriod": 1,
+			"appraisalPhase": "p1",
+			"isDeleted": false
+		},
+		"status": true
+	}
+
+------------------- List data with pagination ------------
+
+Get: http://localhost:8106/payroll/v1/yearly-bonus-setup/0/2
+	
+Response: 
+	{
+		"message": "Resource Fetch Successfully",
+		"payload": {
+			"content": [
+				{
+					"id": 4,
+					"uuid": "ec74f585-dc57-4740-99e9-6b88a9830613",
+					"bonusYear": 2025,
+					"bonusPolicy": 5,
+					"bonusType": "abc",
+					"bonusDate": "2025-03-15",
+					"allReligions": true,
+					"religion": null,
+					"taxable": false,
+					"isAdjustWithSalary": true,
+					"salaryYear": 2025,
+					"salaryMonth": "March",
+					"isAppraisalRatio": true,
+					"appraisalPeriod": 1,
+					"appraisalPhase": "p1",
+					"isDeleted": false
+				},
+				{
+					"id": 3,
+					"uuid": "ad902cc9-5149-4636-94b7-263bca671268",
+					"bonusYear": 2025,
+					"bonusPolicy": 3,
+					"bonusType": "abc",
+					"bonusDate": "2025-03-15",
+					"allReligions": true,
+					"religion": null,
+					"taxable": true,
+					"isAdjustWithSalary": true,
+					"salaryYear": 2025,
+					"salaryMonth": "March",
+					"isAppraisalRatio": true,
+					"appraisalPeriod": 1,
+					"appraisalPhase": "p1",
+					"isDeleted": false
+				}
+			],
+			"totalElements": 4,
+			"totalPages": 2,
+			"page": 0,
+			"size": 2,
+			"first": true,
+			"last": false,
+			"hasNext": true,
+			"hasPrevious": false
+		},
+		"status": true
+	}
+
+------------------- Soft Delete ------------
+Delete: http://localhost:8106/payroll/v1/yearly-bonus-setup/a87a1593-8bc2-4bed-bf4e-a8bff7648a00
+
+Response: 
+		{
+		"message": "Resource Delete Successfully",
+		"payload": {
+			"id": 4,
+			"uuid": "ec74f585-dc57-4740-99e9-6b88a9830613",
+			"bonusYear": 2025,
+			"bonusPolicy": 5,
+			"bonusType": "abc",
+			"bonusDate": "2025-03-15",
+			"allReligions": true,
+			"religion": null,
+			"taxable": false,
+			"isAdjustWithSalary": true,
+			"salaryYear": 2025,
+			"salaryMonth": "March",
+			"isAppraisalRatio": true,
+			"appraisalPeriod": 1,
+			"appraisalPhase": "p1",
+			"isDeleted": true
+		},
+		"status": true
+	}
+
+------------------- Search  ------------
+Post: http://localhost:8106/payroll/v1/yearly-bonus-setup/search
+
+Request: 
+		{
+		  "bonusYear": 2025,
+		   "bonusPolicy": 1,
+		   "bonusType": "abc"
+		}
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 1,
+						"uuid": "c2e61639-a9de-4a5c-b309-060f6cea374f",
+						"bonusYear": 2025,
+						"bonusPolicy": 1,
+						"bonusType": "abc",
+						"bonusDate": "2025-03-15",
+						"allReligions": true,
+						"religion": null,
+						"taxable": true,
+						"isAdjustWithSalary": true,
+						"salaryYear": 2025,
+						"salaryMonth": "March",
+						"isAppraisalRatio": true,
+						"appraisalPeriod": 1,
+						"appraisalPhase": "p1",
+						"isDeleted": false
+					}
+				],
+				"totalElements": 1,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}
+
+------------------- find by bonus year,bonus policy and bonus type ------------
+
+Post: http://localhost:8106/payroll/v1/yearly-bonus-setup/getData
+
+Request: 
+		{
+		   "bonusYear": 2026,
+		   "bonusPolicy": 2,
+			"bonusType": "Eid-ul-Adha"
+		}
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"id": 41,
+				"uuid": "2f0d9807-d861-4796-ab78-e159c74cd422",
+				"bonusYear": 2026,
+				"bonusPolicy": 2,
+				"bonusType": "Eid-ul-Adha",
+				"bonusDate": "2026-03-31",
+				"allReligions": true,
+				"religion": null,
+				"taxable": false,
+				"isAdjustWithSalary": false,
+				"salaryYear": null,
+				"salaryMonth": null,
+				"isAppraisalRatio": false,
+				"appraisalPeriod": null,
+				"appraisalPhase": null,
+				"isDeleted": false
+			},
+			"status": true
+		}

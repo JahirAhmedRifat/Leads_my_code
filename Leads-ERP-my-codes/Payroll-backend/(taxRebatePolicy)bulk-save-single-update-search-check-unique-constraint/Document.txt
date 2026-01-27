@@ -1,0 +1,3 @@
+1. bulk save and single update
+2. create custom check unique constraint and show where found.
+3. search criteria and find logic

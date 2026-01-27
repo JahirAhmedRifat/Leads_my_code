@@ -1,0 +1,384 @@
+
+	======= Documentation ==========
+this is one to many relationship implementation where have maintained parent to child relationship. Also check unique constraints same multiple taxCircle under in one taxzone is not save.
+
+----------------------------- master entity -------------------------
+@Entity
+@Table(name = "tax_zone_setup")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class TaxZoneSetup extends BaseEntity {
+
+    @Column(name = "tax_zone", nullable = false)
+    private Long taxZone;
+
+    @OneToMany(mappedBy = "taxZoneSetup", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TaxZoneSetupDetails> taxZoneDetails = new ArrayList<>();
+
+}
+
+------------------------- child entity -----------------------
+
+@Entity
+@Table(name = "tax_zone_setup_details")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+public class TaxZoneSetupDetails extends BaseEntity {
+
+    @Column(name = "tax_circle", nullable = false)
+    private Long taxCircle;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tax_zone_id", nullable = false)
+    private TaxZoneSetup taxZoneSetup;
+
+}
+
+------------------------- DTO Request -----------------------
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class TaxZoneSetupRequest extends IdHolder {
+
+    @JsonProperty("isDeleted")
+    private Boolean isDeleted;
+
+    @NotNull(message = "Tax Zone is required")
+    private Long taxZone;
+
+    @NotNull(message = "Tax Zone details are required")
+    private List<TaxZoneSetupDetailsRequest> taxZoneDetails;
+
+    @Data
+    public static class TaxZoneSetupDetailsRequest extends IdHolder {
+
+        @JsonProperty("isDeleted")
+        private Boolean isDeleted;
+
+        @NotNull(message = "Tax Circle is required")
+        private Long taxCircle;
+    }
+}
+
+------------------------ Response ------------------------
+
+@Data
+public class TaxZoneSetupResponse extends IdHolder {
+    @JsonProperty("isDeleted")
+    private Boolean isDeleted;
+    private Long taxZone;
+    private List<TaxZoneSetupDetailsResponse> taxZoneDetails;
+
+    @Data
+    public static class TaxZoneSetupDetailsResponse extends IdHolder {
+        @JsonProperty("isDeleted")
+        private Boolean isDeleted;
+        private Long taxCircle;
+    }
+}
+
+------------------------------ Controller -------------------------
+
+@ApiController
+@RequestMapping("/tax-zone-setup")
+public class TaxZoneSetupController
+    extends BaseController<TaxZoneSetupRequest, TaxZoneSetupResponse>
+    implements TaxZoneSetupApi {
+
+    private final TaxZoneSetupService taxZoneSetupService;
+    private final TaxZoneSetupQueryService taxZoneSetupQueryService;
+
+    public TaxZoneSetupController(
+            BaseService<TaxZoneSetupRequest, TaxZoneSetupResponse> service,
+            BaseQueryService<TaxZoneSetupRequest, TaxZoneSetupResponse> queryService,
+            TaxZoneSetupService taxZoneSetupService,
+            TaxZoneSetupQueryService taxZoneSetupQueryService
+    ) {
+        super(service, queryService);
+        this.taxZoneSetupService = taxZoneSetupService;
+        this.taxZoneSetupQueryService = taxZoneSetupQueryService;
+    }
+
+
+    @Override
+    public ResponseEntity<Envelope> createTaxZone(TaxZoneSetupRequest request) {
+        Envelope envelope = new Envelope()
+                .setStatus(true)
+                .setMessage("TaxZone save successfully")
+                .setPayload(taxZoneSetupService.createTaxZone(request));
+
+        return ResponseEntity.ok(envelope);
+    }
+
+    @Override
+    public ResponseEntity<Envelope> updateTaxZone(TaxZoneSetupRequest request) {
+        Envelope envelope = new Envelope()
+                .setStatus(true)
+                .setMessage("TaxZone updated successfully")
+                .setPayload(taxZoneSetupService.updateTaxZone(request));
+
+        return ResponseEntity.ok(envelope);
+    }
+
+    @Override
+    public ResponseEntity<Envelope> getTaxZoneList(Long taxZoneId) {
+        Envelope envelope = new Envelope()
+                .setStatus(true)
+                .setMessage("TaxZone fetched successfully")
+                .setPayload(taxZoneSetupQueryService.getTaxZoneByTaxId(taxZoneId));
+
+        return ResponseEntity.ok(envelope);
+    }
+
+}
+------------------------- Master Repository ------------------
+
+@Repository
+public interface TaxZoneSetupRepository extends BaseRepository<TaxZoneSetup> {
+    Optional<TaxZoneSetup> findByTaxZoneAndIsDeletedFalse(Long taxZone);
+    Optional<TaxZoneSetup> findByUuidAndIsDeletedFalse(String uuid);
+}
+
+----------------------------- Child Repository ----------------------------
+@Repository
+public interface TaxZoneSetupDetailsRepository extends BaseRepository<TaxZoneSetupDetails> {
+    Optional<TaxZoneSetupDetails> findByTaxCircleAndIsDeletedFalse(Long taxCircle);
+}
+---------------------------------- Service Implementation -------------------
+
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Service
+public class TaxZoneSetupServiceImpl
+        extends BaseServiceImpl<TaxZoneSetup, TaxZoneSetupRequest, TaxZoneSetupResponse>
+        implements TaxZoneSetupService, TaxZoneSetupQueryService {
+
+    private final TaxZoneSetupRepository taxZoneSetupRepository;
+    private final TaxZoneSetupDetailsRepository taxZoneSetupDetailsRepository;
+
+    public TaxZoneSetupServiceImpl(
+            BaseRepository<TaxZoneSetup> repository,
+            TaxZoneSetupRepository taxZoneSetupRepository,
+            TaxZoneSetupDetailsRepository taxZoneSetupDetailsRepository
+    ) {
+        super(repository);
+        this.taxZoneSetupRepository = taxZoneSetupRepository;
+        this.taxZoneSetupDetailsRepository = taxZoneSetupDetailsRepository;
+    }
+
+    @Override
+    @Transactional
+    public TaxZoneSetupResponse createTaxZone(TaxZoneSetupRequest request) {
+        try {
+
+            // Collect all conflicts
+            StringBuilder conflictMessage = new StringBuilder();
+
+            for (TaxZoneSetupRequest.TaxZoneSetupDetailsRequest detailReq
+                    : request.getTaxZoneDetails()) {
+
+                taxZoneSetupDetailsRepository
+                        .findByTaxCircleAndIsDeletedFalse(detailReq.getTaxCircle())
+                        .ifPresent(existing -> {
+                            Long existingTaxZone = existing.getTaxZoneSetup().getTaxZone();
+
+                            conflictMessage.append("Tax Circle [")
+                                    .append(detailReq.getTaxCircle())
+                                    .append("] already exists under Tax Zone [")
+                                    .append(existingTaxZone)
+                                    .append("]\n");
+                        });
+            }
+
+            // If any conflicts found → throw once
+            if (!conflictMessage.isEmpty()) {
+                throw new CustomException(
+                        HttpStatus.BAD_REQUEST,
+                        conflictMessage.toString().trim()
+                );
+            }
+
+            // Create parent entity
+            TaxZoneSetup entity = new TaxZoneSetup();
+            BeanUtils.copyProperties(request, entity, "taxZoneDetails");
+
+            // Map child entities
+            entity.setTaxZoneDetails(
+                    request.getTaxZoneDetails().stream()
+                            .map(d -> {
+                                TaxZoneSetupDetails detail = new TaxZoneSetupDetails();
+                                BeanUtils.copyProperties(d, detail);
+                                detail.setTaxZoneSetup(entity);
+                                return detail;
+                            })
+                            .collect(Collectors.toList())
+            );
+
+            // Save
+            TaxZoneSetup saved = taxZoneSetupRepository.save(entity);
+            return toResponse(saved);
+
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional
+    public TaxZoneSetupResponse updateTaxZone(TaxZoneSetupRequest request) {
+        try {
+            // Find existing entity
+            TaxZoneSetup entity = taxZoneSetupRepository
+                    .findByUuidAndIsDeletedFalse(request.getUuid())
+                    .orElseThrow(() -> new CustomException(
+                            HttpStatus.NOT_FOUND,
+                            "TaxZone not found"
+                    ));
+
+            // Update parent fields
+            BeanUtils.copyProperties(request, entity, "taxZoneDetails", "id", "uuid");
+
+            // Create map of existing details by UUID (only non-deleted ones)
+            Map<String, TaxZoneSetupDetails> existingMap = entity.getTaxZoneDetails().stream()
+                    .filter(d -> Boolean.FALSE.equals(d.getIsDeleted()))
+                    .collect(Collectors.toMap(
+                            TaxZoneSetupDetails::getUuid,
+                            d -> d
+                    ));
+
+            StringBuilder conflictMessage = new StringBuilder();
+
+            // Track which UUIDs we're processing from the request
+            Set<String> processedUuids = new HashSet<>();
+
+            // Process incoming child requests
+            for (TaxZoneSetupRequest.TaxZoneSetupDetailsRequest d : request.getTaxZoneDetails()) {
+                if (d.getUuid() != null && !d.getUuid().isBlank()) {
+                    processedUuids.add(d.getUuid());
+
+                    // Existing detail (update or soft delete)
+                    TaxZoneSetupDetails existingDetail = existingMap.get(d.getUuid());
+                    if (existingDetail == null) {
+                        // This might be a previously deleted item being restored or invalid UUID
+                        continue;
+                    }
+
+                    // Soft delete check
+                    if (Boolean.TRUE.equals(d.getIsDeleted())) {
+                        // Mark as deleted - orphanRemoval will handle removal from collection
+                        existingDetail.setIsDeleted(true);
+                        continue;
+                    }
+
+                    // Check uniqueness for tax circle (whether changed or not)
+                    taxZoneSetupDetailsRepository
+                            .findByTaxCircleAndIsDeletedFalse(d.getTaxCircle())
+                            .ifPresent(found -> {
+                                if (!found.getUuid().equals(existingDetail.getUuid())) {
+                                    conflictMessage.append("Tax Circle [")
+                                            .append(d.getTaxCircle())
+                                            .append("] already exists under Tax Zone [")
+                                            .append(found.getTaxZoneSetup().getTaxZone())
+                                            .append("]\n");
+                                }
+                            });
+
+                    // Update existing detail
+                    existingDetail.setTaxCircle(d.getTaxCircle());
+                    existingDetail.setIsDeleted(false);
+                    // Copy other properties if any
+                    BeanUtils.copyProperties(d, existingDetail, "id", "uuid", "taxZoneSetup", "isDeleted");
+
+                } else {
+                    // New detail - no UUID
+                    // Uniqueness check for new tax circle
+                    taxZoneSetupDetailsRepository
+                            .findByTaxCircleAndIsDeletedFalse(d.getTaxCircle())
+                            .ifPresent(found -> conflictMessage.append("Tax Circle [")
+                                    .append(d.getTaxCircle())
+                                    .append("] already exists under Tax Zone [")
+                                    .append(found.getTaxZoneSetup().getTaxZone())
+                                    .append("]\n"));
+
+                    // Create new detail
+                    TaxZoneSetupDetails newDetail = new TaxZoneSetupDetails();
+                    BeanUtils.copyProperties(d, newDetail, "id", "uuid", "taxZoneSetup");
+                    newDetail.setTaxZoneSetup(entity);
+                    newDetail.setIsDeleted(false);
+                    entity.getTaxZoneDetails().add(newDetail);
+                }
+            }
+
+            // Handle items that exist in DB but not in the request (soft delete them)
+            for (Map.Entry<String, TaxZoneSetupDetails> entry : existingMap.entrySet()) {
+                if (!processedUuids.contains(entry.getKey())) {
+                    // This detail exists in DB but wasn't sent in request, so mark as deleted
+                    entry.getValue().setIsDeleted(true);
+                }
+            }
+
+            // Throw if any conflicts
+            if (!conflictMessage.isEmpty()) {
+                throw new CustomException(
+                        HttpStatus.BAD_REQUEST,
+                        conflictMessage.toString().trim()
+                );
+            }
+
+            // Save the entity
+            TaxZoneSetup saved = taxZoneSetupRepository.save(entity);
+
+            // For response, get only non-deleted items
+            List<TaxZoneSetupDetails> nonDeletedDetails = saved.getTaxZoneDetails().stream()
+                    .filter(d -> Boolean.FALSE.equals(d.getIsDeleted()))
+                    .collect(Collectors.toList());
+
+            // Create a new TaxZoneSetup object for response to avoid modifying entity state
+            TaxZoneSetup responseEntity = new TaxZoneSetup();
+            BeanUtils.copyProperties(saved, responseEntity, "taxZoneDetails");
+            responseEntity.setTaxZoneDetails(nonDeletedDetails);
+
+            return toResponse(responseEntity);
+
+        } catch (CustomException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new CustomException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public TaxZoneSetupResponse getTaxZoneByTaxId(Long taxZoneId) {
+
+        TaxZoneSetup entity = taxZoneSetupRepository
+                .findByTaxZoneAndIsDeletedFalse(taxZoneId)
+                .orElseThrow(() -> new CustomException(
+                        HttpStatus.NOT_FOUND,
+                        "Tax Zone [" + taxZoneId + "] not found"
+                ));
+
+        // Filter only non-deleted child records
+        entity.setTaxZoneDetails(
+                entity.getTaxZoneDetails().stream()
+                        .filter(d -> Boolean.FALSE.equals(d.getIsDeleted()))
+                        .collect(Collectors.toList())
+        );
+
+        return toResponse(entity);
+    }
+
+}
+
+-------------------- END ------------------------------------------
