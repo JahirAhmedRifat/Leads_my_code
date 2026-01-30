@@ -1,5 +1,5 @@
 1. Bulk save and single update.
-2. check custom unique constraint and show where found.
+2. check(Spring-boot wise) custom unique constraint and show where found.
 3. like search criteria...
 
 

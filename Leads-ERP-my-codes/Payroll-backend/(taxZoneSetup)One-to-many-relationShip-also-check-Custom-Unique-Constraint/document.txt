@@ -1,3 +1,4 @@
 1. table is one to many relationship.
-2. create custom unique constraint message.
-3. single save/update, find and search
+2. check own custom unique constraint logic then create.
+3. combind in update method(softDelete and update).
+4. single save/update, find.
