@@ -1,5 +1,5 @@
 		
 		=========== Documentation ===========
 1. Prorata basis calculation and sevice length upto 1 years 
-2. all employee and single employee both generated 
-3. Bulk Save & like search 
+2. Organization and branch wise bonus generation.
+3. Bulk Save & search 
