@@ -1,0 +1,100 @@
+<div class="page-wrapper">
+  @if (frmGroup) {
+    <form [formGroup]="frmGroup" class="fuel-info-form">
+
+      <section class="header-section">
+        <app-expansion-panel-header
+          [isOpenSignal]="headerPanel"
+          [panelTitle]="'Maintenance Information List'">
+        </app-expansion-panel-header>
+
+        <div class="flex justify-end mt-4">
+          <generic-button id="addMaintenanceBtn" label="Add Maintenance Info" icon="add"
+                   (onClick)="addNew()">
+          </generic-button>
+        </div>
+      </section>
+
+      <section class="sub-panel bg-gray-50 rounded-lg p-4 mb-6 shadow-sm">
+        <app-expansion-sub-panel-header
+          [isOpenSignal]="searchPanel"
+          [subPanelTitle]="'Search Criteria'">
+        </app-expansion-sub-panel-header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+
+          <input-text-box [frmGroup]="frmGroup" controlName="vehicleName"
+                               label="Vehicle Name" displayMode="vertical">
+          </input-text-box>
+
+          <input-select-option-field
+            [frmGroup]="frmGroup"
+            controlName="vehicleType"
+            label="Vehicle Type"
+            [options]="vehicleTypeDropdown"
+            displayMode="vertical"
+            [searchable]="true">
+          </input-select-option-field>
+
+          <input-text-box [frmGroup]="frmGroup" controlName="registrationNumber"
+                               label="Registration Number" displayMode="vertical">
+          </input-text-box>
+
+          <input-text-box [frmGroup]="frmGroup" controlName="supplierName"
+                               label="Supplier Name" displayMode="vertical">
+          </input-text-box>
+
+        </div>
+
+        <div class="flex justify-end mt-6 gap-3">
+          <generic-button label="Reset" cssClass="bg-slate-500 text-white"
+                   (onClick)="reset()"></generic-button>
+
+          <generic-button label="Search" icon="search"
+                   (onClick)="search()"></generic-button>
+        </div>
+      </section>
+
+      <section class="sub-panel bg-white rounded-lg shadow-sm p-4">
+
+        <app-expansion-panel-header
+          [isOpenSignal]="resultPanel"
+          [panelTitle]="'Maintenance Information List'">
+        </app-expansion-panel-header>
+
+        <div class="mt-4">
+
+          <generic-data-grid
+            id="maintenance-info-grid"
+            [dataSource]="dataSource"
+            [initPageSize]="pageSize"
+            [selectedColumns]="[
+              'vehicleName',
+              'vehicleTypeName',
+              'registrationNumber',
+              'supplierName',
+              'paymentTypeName',
+              'issueDate'
+            ]"
+            [customColumnNames]="{
+              vehicleName: 'Vehicle Name',
+              vehicleTypeName: 'Vehicle Type',
+              registrationNumber: 'Registration No',
+              supplierName: 'Supplier Name',
+              paymentTypeName: 'Payment Type',
+              issueDate: 'Issue Date'
+            }"
+            [useInlineEdit]="false"
+            [numberColumns]="[]"
+            [showEditButton]="true"
+            [showDeleteButton]="false"
+            (onFHEditClick)="edit($event)">
+          </generic-data-grid>
+
+        </div>
+
+      </section>
+
+    </form>
+  }
+</div>

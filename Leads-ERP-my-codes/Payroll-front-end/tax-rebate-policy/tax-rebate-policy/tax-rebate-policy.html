@@ -1,0 +1,97 @@
+<div class="page-wrapper">
+  @if(frmGroup) {
+  <form [formGroup]="frmGroup" class="transaction-form">
+    <div class="panel">
+      <div class="transaction-grid-container">
+        <!-- Tax Rebate Policy Form Section -->
+        <section class="header-section bg-white rounded-lg shadow-sm mb-4">
+          <app-expansion-panel-header
+            [isOpenSignal]="taxRebatePolicyPanel"
+            [panelTitle]="'Tax Rebate Policy'"
+          />
+
+          @if(taxRebatePolicyPanel()) {
+          <div class="p-4">
+            <div class="grid grid-cols-4 gap-x-8 gap-y-4 mb-6">
+
+              <!-- Tax Year (defaults to current year) -->
+              <input-text-box
+                [frmGroup]="frmGroup"
+                controlName="taxYear"
+                label="Tax Year"
+                type="number"
+                [isVertical]="true"
+                [required]="true"
+                [isReadonly]="true"
+                placeholder="YYYY"                
+              />
+
+              <!-- Amount Type -->
+              <input-select-option-field
+                [frmGroup]="frmGroup"
+                controlName="amountType"
+                label="Amount Type"
+                [options]="amountTypeOptions"
+                [searchable]="true"
+              />
+
+              <!-- Total Amount/Value -->
+              <input-amount
+                [frmGroup]="frmGroup"
+                [controlName]="'totalAmount'"
+                [label]="'Value'"
+                displayMode="vertical"
+                [decimalPlaces]="decimalPlaces()"
+                [allowNegative]="false"
+                [allowLeadingZeros]="false"
+                [minAmt]="0"
+                [maxAmt]="maxAmount()"
+                [customErrorMessages]="{
+                  max: decimalPlaces() === 0
+                        ? 'Percentage must be ≤ 100%'
+                        : 'Amount must be ≤ 1,000,000.00'
+                }"
+                ></input-amount>
+
+              <div *ngIf="!isEdit" class="mt-3.5">
+                <generic-button
+                  (onClick)="!isUpdate ? addRebate() : updateRebate()"
+                  [icon]="!isUpdate ? 'add' : 'update'"
+                />
+              </div>
+
+            </div>
+
+             <!-- Rebate Details Grid -->
+            <div *ngIf="!isEdit">
+              <generic-data-grid
+                [id]="'rebate-details-grid'"
+                [dataSource]="rebateDetailsData()"
+                [initPageSize]="10"
+                [showEditButton]="true"
+                [showDeleteButton]="true"
+                [useInlineEdit]="false"
+                [selectedColumns]="rebateDetailsColumns"
+                [customColumnNames]="rebateDetailsColumnNames"
+                [gridTitle]="'Rebate Details'"
+                (onFHEditClick)="onEditRebateDetail($event)"
+                (onFHDeleteClick)="onDeleteRebateDetail($event)"
+              />
+            </div>
+          </div>
+          }
+        </section>
+      </div>
+    </div>
+  </form>
+  }
+</div>
+
+<generic-modal
+  [isVisible]="isModalShow"
+  [modalTitle]="'Tax Rebate List'"
+  [cssClass]="'modal-xl'"
+  [modalComponent]="rebateListModal"
+  (modalClosed)="isModalShow = false;"
+  (modalResult)="getModalResult($event)"
+></generic-modal>

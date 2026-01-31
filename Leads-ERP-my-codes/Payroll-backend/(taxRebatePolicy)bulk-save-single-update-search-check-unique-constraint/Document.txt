@@ -1,3 +1,4 @@
-1. bulk save and single update
+1. bulk save and single update(previous taxyear not updated, then check unique constraint)
 2. create custom check unique constraint and show where found.
 3. search criteria and find logic
+4. get list data and softDelete set from base.

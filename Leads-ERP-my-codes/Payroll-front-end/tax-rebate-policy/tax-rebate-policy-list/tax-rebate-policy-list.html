@@ -1,0 +1,92 @@
+<mat-card class="w-full">
+  <div>
+    <!-- Search Criteria Section -->
+    <div class="panel">
+      <div class="transaction-grid-container">
+        <section class="header-section">
+          <app-expansion-panel-header
+            [isOpenSignal]="searchCriteriaPanel"
+            [panelTitle]="'Search Criteria'"
+          />
+        </section>
+
+        @if(searchCriteriaPanel()) {
+        <div class="py-2">
+          <div class="grid md:grid-cols-3 gap-x-4">
+
+            <!-- Tax Year -->
+            <input-text-box
+              [frmGroup]="frmGroup"
+              controlName="taxYear"
+              label="Tax Year"
+              [isVertical]="true"
+            />
+
+            <!-- Amount Type -->
+            <input-select-option-field
+                [frmGroup]="frmGroup"
+                controlName="amountType"
+                label="Amount Type"
+                [options]="amountTypeOptions"
+                [searchable]="true"
+            />
+            <div>
+              <div class="flex mt-3.5">
+                <div class="grid sm:grid-cols-2 gap-1">
+                  <generic-button label="Search" icon="search" (onClick)="search()" />
+                  <generic-button label="Reset" icon="refresh" (onClick)="reset()" />                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Rebate List Grid Section -->
+  <div class="panel mt-2">
+    <div class="transaction-grid-container mb-3">
+      <section class="header-section">
+        <app-expansion-panel-header
+          [isOpenSignal]="businessHeaderPanel"
+          [panelTitle]="'Tax Rebate List'"
+        />
+      </section>
+
+      @if(businessHeaderPanel()) {
+      <div class="">
+        <generic-data-grid
+          [id]="'rebate-details-grid'"
+          [dataSource]="dataSource()"
+          [initPageSize]="pageSize"
+          [selectedColumns]="selectedColumns"
+          [customColumnNames]="customColumnNames"
+          [numberColumns]="numberColumns"
+          [actionVisibility]="transactionActionVisibility"          
+          [showEditButton]="true"
+          [showDeleteButton]="true"
+          [useInlineEdit]="false"
+          (onFHEditClick)="onEditClick($event)"
+          (onFHDeleteClick)="onDeleteClick($event)"
+        />
+      </div>
+      }
+    </div>
+  </div>
+</mat-card>
+
+<!-- Delete Confirmation Dialog -->
+@if (showDeleteConfirmation()) {
+<confirmation-dialogue
+  [isOpen]="true"
+  [title]="'Delete Tax Rebate'"
+  [message]="
+    'Are you sure you want to delete! '"
+  [variant]="'danger'"
+  (buttonClick)="onDeleteConfirm($event)"
+  (close)="showDeleteConfirmation.set(false)"
+>
+</confirmation-dialogue>
+}

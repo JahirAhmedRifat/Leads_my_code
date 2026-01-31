@@ -1,0 +1,201 @@
+<div class="page-wrapper">
+  @if (maintenanceInfoForm) {
+    <form [formGroup]="maintenanceInfoForm" class="transaction-form">
+      <div class="panel">
+        <div class="transaction-grid-container">
+
+          <!-- Header -->
+          <section class="header-section">
+            <app-expansion-panel-header
+              [panelTitle]="'Maintenance Information Management'"
+              [isOpenSignal]="mainPanel"
+            />
+          </section>
+
+          <!-- Maintenance Information -->
+          <section class="primary-fields-section bg-gray-50 rounded-lg p-4 mb-6">
+            <app-expansion-sub-panel-header
+              [isOpenSignal]="mainPanel"
+              [subPanelTitle]="'Maintenance Information'"
+            />
+
+            @if (mainPanel()) {
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+
+                <input-select-option-field
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'vehicleName'"
+                  [label]="'Vehicle Name'"
+                  [options]="vehicleOptions"
+                  displayMode="vertical"
+                  [searchable]="true"
+                  [tooltip]="'Select vehicle'"
+                  (onSelect)="onDropdownChange($event, 'vehicleName')"
+                />
+
+                <input-text-box
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'couponNo'"
+                  [label]="'Coupon/Invoice No.'"
+                  displayMode="vertical"
+                  [maxLength]="50"
+                />
+
+                <input-number
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'distanceTraveled'"
+                  [label]="'Distance Traveled'"
+                  displayMode="vertical"
+                  [tooltip]="'Optional'"
+                />
+
+                <input-text-box
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'supplierName'"
+                  [label]="'Supplier Name'"
+                  displayMode="vertical"
+                  [maxLength]="50"
+                />
+
+                <input-select-option-field
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'paymentType'"
+                  [label]="'Payment Type'"
+                  [options]="paymentTypeOptions"
+                  displayMode="vertical"
+                  [searchable]="true"
+                  (onSelect)="onDropdownChange($event, 'paymentType')"
+                />
+
+                <input-date
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'issueDate'"
+                  [label]="'Issue Date'"
+                  displayMode="vertical"
+                  [tooltip]="'Select date'"
+                />
+
+                <input-text-box
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'vehicleType'"
+                  [label]="'Vehicle Type'"
+                  displayMode="vertical"
+                  [isReadonly]="true"
+                />
+
+                <input-text-box
+                  [frmGroup]="maintenanceInfoForm"
+                  [controlName]="'registrationNumber'"
+                  [label]="'Registration Number'"
+                  displayMode="vertical"
+                  [isReadonly]="true"
+                />
+              </div>
+            }
+          </section>
+
+          <!-- Maintenance Items -->
+          <section class="primary-fields-section bg-gray-50 rounded-lg p-4 mb-6">
+
+            @if (!isViewDetails){
+              
+               <app-expansion-sub-panel-header
+                [isOpenSignal]="itemPanel"
+                [subPanelTitle]="'Maintenance Items'"
+                />
+
+              @if (itemPanel()) {
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4">
+                  <input-select-option-field
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'itemName'"
+                    [label]="'Item Name'"
+                    [options]="itemOptions"
+                    displayMode="vertical"
+                    [searchable]="true"
+                    (onSelect)="onItemDropdownChange($event)"
+                  />
+
+                  <input-number
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'unitPrice'"
+                    [label]="'Unit Price'"
+                    displayMode="vertical"
+                    [isReadonly]="true"
+                  />
+
+                  <input-number
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'quantity'"
+                    [label]="'Quantity'"
+                    displayMode="vertical"
+                    [minValue]="1"
+                  />
+
+                  <input-number
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'subTotal'"
+                    [label]="'Sub Total'"
+                    displayMode="vertical"
+                    [isReadonly]="true"
+                  />
+
+                  <input-text-box
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'remarks'"
+                    [label]="'Remarks'"
+                    displayMode="vertical"
+                  />
+
+                  <input-text-box
+                    [frmGroup]="maintenanceItemForm"
+                    [controlName]="'lastChange'"
+                    [label]="'Last Change'"
+                    displayMode="vertical"
+                    [isReadonly]="true"
+                  />
+                </div>
+
+                <div class="flex justify-end mt-4">
+                  <generic-button
+                    id="addMaintenanceItemBtn"
+                    class="primary-btn"
+                    label="Add Item"
+                    icon="add"
+                    (onClick)="addItem()"
+                  />
+                </div>
+              }
+
+            }
+          </section>
+
+          <!-- Items table -->
+          <section class="transaction-grid-section bg-white rounded-lg shadow-sm">
+            <app-expansion-panel-header
+              [panelTitle]="'Maintenance Items List'"
+              [isOpenSignal]="itemPanel"
+            />
+
+            <div class="p-4">
+              <generic-data-grid
+                [id]="'maintenance-items-grid'"
+                [dataSource]="maintenanceItemsList"
+                [initPageSize]="10"
+                [selectedColumns]="itemGridColumns"
+                [customColumnNames]="itemGridColumnNames"
+                [numberColumns]="['unitPrice','quantity','subTotal']"
+                [useInlineEdit]="false"
+                [showDeleteButton]="true"
+                [showEditButton]="false"
+                [showViewButton]="false"
+                [enableSelection]="false"
+                (onFHDeleteClick)="onGridDelete($event)"
+              />
+            </div>
+          </section>
+        </div>
+      </div>
+    </form>
+  }
+</div>

@@ -1,0 +1,10 @@
+	----------- form page ----------
+1. initially show current year. 
+2. same amount type won't add in list.
+3. when edit or delete then serial number auto update.
+4. bulk save and single update.
+
+	-------------- list page -------------
+1. search criteria and set reset and search part.
+2. Condition wise action button handle.(previous tax year not delete)
+3. when click edit button then goes form page and add button and data-grid will be     hide. 
