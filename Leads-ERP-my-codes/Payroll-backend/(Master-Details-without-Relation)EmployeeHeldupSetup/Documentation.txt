@@ -1,0 +1,5 @@
+
+1. master details (without relation).
+2. checking date range - before save and update check same employee and helduptype      within same date range. 
+3. search also get data within date range .
+4. get data find by uuid and in base, get pagination list master data.
