@@ -1,0 +1,328 @@
+
+------------------- Bulk-Save ------------
+Post: http://localhost:8106/payroll/v1/bonus-disbursement/bulk-save
+
+Request: 
+		[
+		  {
+			"empOrgId": "1",
+			"empBranchId": "1",
+			"bonusYear": 2026,
+			"bonusType": "Performance",
+			"bonusDate": "2026-03-15",
+			"bonusDisbursementDetails": [
+			  {
+				"employeeId": "EMP001",
+								"bonusAmount": 138230
+			  },
+			  {
+				"employeeId": "EMP002",
+								"bonusAmount": 109250
+			  },
+			  {
+				"employeeId": "EMP003",
+				"bonusAmount": 41400
+			  },
+			  {
+				"employeeId": "EMP005",
+				"bonusAmount": 48300
+			  },
+			  {
+				"employeeId": "EMP006",
+				"bonusAmount": 84755
+			  }
+			]
+		  }
+		]
+
+Response: 
+		{
+			"message": "Bonus Disbursement created successfully",
+			"payload": [
+				{
+					"id": 21,
+					"uuid": "2fe07aa5-6268-405b-b090-de4f565f486b",
+					"empOrgId": "1",
+					"empBranchId": "1",
+					"bonusYear": 2026,
+					"bonusType": "Performance",
+					"bonusDate": "2026-03-15",
+					"totalAmount": 421935,
+					"disbursementDate": "2026-02-23",
+					"bonusDisbursementDetails": [
+						{
+							"id": 21,
+							"uuid": "e74c3fd5-882c-4cc2-a560-bef1602d494d",
+							"employeeId": "EMP001",
+							"bonusAmount": 138230,
+							"status": "DRAFT",
+							"isDeleted": false
+						},
+						{
+							"id": 22,
+							"uuid": "7dd4e702-74ab-4e05-9bfa-2ac74a96c520",
+							"employeeId": "EMP002",
+							"bonusAmount": 109250,
+							"status": "DRAFT",
+							"isDeleted": false
+						},
+						{
+							"id": 23,
+							"uuid": "afbfa997-22ac-4cd3-aded-e22186d639eb",
+							"employeeId": "EMP003",
+							"bonusAmount": 41400,
+							"status": "DRAFT",
+							"isDeleted": false
+						},
+						{
+							"id": 24,
+							"uuid": "5b123f47-fa4b-4277-92e6-58ba5fa0bbf9",
+							"employeeId": "EMP005",
+							"bonusAmount": 48300,
+							"status": "DRAFT",
+							"isDeleted": false
+						},
+						{
+							"id": 25,
+							"uuid": "b95d5e2a-b916-4620-b021-25541821e05e",
+							"employeeId": "EMP006",
+							"bonusAmount": 84755,
+							"status": "DRAFT",
+							"isDeleted": false
+						}
+					],
+					"isDeleted": false
+				}
+			],
+			"status": true
+		}
+------------------- list data with pagination ------------
+
+Get: http://localhost:8106/payroll/v1/bonus-disbursement/0/25
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 2,
+						"uuid": "ebbdef0a-5f4c-4a9b-ae4f-8b3527220ff3",
+						"empOrgId": "ORG-001",
+						"empBranchId": "BR-02",
+						"bonusYear": 2025,
+						"bonusType": "Festival",
+						"bonusDate": "2025-03-01",
+						"totalAmount": 15000,
+						"disbursementDate": "2026-02-22",
+						"bonusDisbursementDetails": [
+							{
+								"id": 3,
+								"uuid": "2f33b147-eda1-4e27-b7e3-1ca43a87c73c",
+								"employeeId": "EMP-2001",
+								"bonusAmount": 7000,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 4,
+								"uuid": "4f3181f4-eba3-47e8-80c8-057b05ecf324",
+								"employeeId": "EMP-2002",
+								"bonusAmount": 8000,
+								"status": "DRAFT",
+								"isDeleted": false
+							}
+						],
+						"isDeleted": false
+					},
+					{
+						"id": 1,
+						"uuid": "e828392d-f867-406c-9e19-a680dbefddfc",
+						"empOrgId": "ORG-001",
+						"empBranchId": "BR-01",
+						"bonusYear": 2025,
+						"bonusType": "Festival",
+						"bonusDate": "2025-03-01",
+						"totalAmount": 11000,
+						"disbursementDate": "2026-02-22",
+						"bonusDisbursementDetails": [
+							{
+								"id": 1,
+								"uuid": "609d4a5f-5723-49b5-af04-5a0f103998c3",
+								"employeeId": "EMP-1001",
+								"bonusAmount": 5000,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 2,
+								"uuid": "bad5ac2b-5d71-4624-969d-582eee148f39",
+								"employeeId": "EMP-1002",
+								"bonusAmount": 6000,
+								"status": "DRAFT",
+								"isDeleted": false
+							}
+						],
+						"isDeleted": false
+					}
+				],
+				"totalElements": 2,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}
+		
+------------------- search ------------
+Post: http://localhost:8106/payroll/v1/bonus-disbursement/search
+
+Request:
+		{   
+			"empOrgId": "ORG-001",
+			"empBranchId": "BR-02",
+			"bonusYear": 2025,
+			"bonusType": "Festival",
+			"bonusDate": "2025-03-01",
+			"pageIndex": 0 ,
+			"pageSize": 25        
+		 }
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 2,
+						"uuid": "ebbdef0a-5f4c-4a9b-ae4f-8b3527220ff3",
+						"empOrgId": "ORG-001",
+						"empBranchId": "BR-02",
+						"bonusYear": 2025,
+						"bonusType": "Festival",
+						"bonusDate": "2025-03-01",
+						"totalAmount": 15000,
+						"disbursementDate": "2026-02-22",
+						"bonusDisbursementDetails": [
+							{
+								"id": 3,
+								"uuid": "2f33b147-eda1-4e27-b7e3-1ca43a87c73c",
+								"employeeId": "EMP-2001",
+								"bonusAmount": 7000,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 4,
+								"uuid": "4f3181f4-eba3-47e8-80c8-057b05ecf324",
+								"employeeId": "EMP-2002",
+								"bonusAmount": 8000,
+								"status": "DRAFT",
+								"isDeleted": false
+							}
+						],
+						"isDeleted": false
+					}
+				],
+				"totalElements": 1,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}
+		
+		
+------------------- get data for bonus disbursement employee bonus profile  ------------
+
+Post: http://localhost:8106/payroll/v1/employee-bonus-profile/get-bonus-info
+
+Request:
+		{ 
+		 "empOrgId": "1",
+		"empBranchId": "1",
+		"bonusYear": 2026,
+		"bonusType": "Performance",
+		"pageIndex": 0 ,
+		"pageSize": 25         
+		}
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 61,
+						"uuid": "b2a4860a-cfec-469c-aa1a-db351f2480a5",
+						"empOrgId": "1",
+						"empBranchId": "1",
+						"bonusYear": 2026,
+						"bonusType": "Performance",
+						"bonusDate": "2026-03-15",
+						"totalAmount": 754630,
+						"yearlyBonusUuid": "e0257d71-632d-44ca-835e-e759947c0c28",
+						"bonusProfileDetails": [
+							{
+								"id": 62,
+								"uuid": "d653f849-82d1-4e82-a0c4-79f2b57beb4d",
+								"employeeId": "EMP001",
+								"bonusAmount": 138230,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 63,
+								"uuid": "66a8beae-a93b-4d14-be85-b14ba4e00455",
+								"employeeId": "EMP002",
+								"bonusAmount": 109250,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 64,
+								"uuid": "af2f1564-20c9-4425-9e96-b409292f340e",
+								"employeeId": "EMP003",
+								"bonusAmount": 41400,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 65,
+								"uuid": "defb60f0-9f76-4093-b9d7-0e80590b4421",
+								"employeeId": "EMP005",
+								"bonusAmount": 48300,
+								"status": "DRAFT",
+								"isDeleted": false
+							},
+							{
+								"id": 66,
+								"uuid": "7ade6d6b-4b3c-4bb4-89f1-62b91775376b",
+								"employeeId": "EMP006",
+								"bonusAmount": 84755,
+								"status": "DRAFT",
+								"isDeleted": false
+							}
+						],
+						"isDeleted": false
+					}
+				],
+				"totalElements": 1,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}

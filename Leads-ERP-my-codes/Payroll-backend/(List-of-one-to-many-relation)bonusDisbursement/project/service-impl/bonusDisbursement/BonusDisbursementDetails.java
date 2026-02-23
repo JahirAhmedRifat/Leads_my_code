@@ -1,4 +1,4 @@
-package com.leads.microcube.payroll.employeeBonusProfile;
+package com.leads.microcube.payroll.bonusDisbursement;
 
 
 import com.leads.microcube.base.BaseEntity;
@@ -11,12 +11,12 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name = "employee_bonus_profile_details")
+@Table(name = "treg_bonus_disbursement_details")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeeBonusProfileDetails extends BaseEntity {
+public class BonusDisbursementDetails extends BaseEntity {
 
     @Column(name = "employee_id", nullable = false)
     private String employeeId;
@@ -27,6 +27,6 @@ public class EmployeeBonusProfileDetails extends BaseEntity {
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bonus_profile_id", nullable = false)
-    private EmployeeBonusProfile employeeBonusProfile;
+    @JoinColumn(name = "master_id", nullable = false)
+    private BonusDisbursement bonusDisbursement;
 }

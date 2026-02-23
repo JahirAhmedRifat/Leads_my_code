@@ -1,4 +1,4 @@
-package com.leads.microcube.payroll.employeeBonusProfile;
+package com.leads.microcube.payroll.bonusDisbursement;
 
 import com.leads.microcube.base.BaseRepository;
 import org.springframework.data.domain.Page;
@@ -11,16 +11,10 @@ import java.time.LocalDate;
 
 
 @Repository
-public interface EmployeeBonusProfileRepository extends BaseRepository<EmployeeBonusProfile> {
-
-    boolean existsByEmpOrgIdAndBonusYearAndBonusTypeAndIsDeletedFalse(
-            String empOrgId,
-            Integer bonusYear,
-            String bonusType
-    );
+public interface BonusDisbursementRepository extends BaseRepository<BonusDisbursement> {
 
     @Query("""
-            SELECT v FROM EmployeeBonusProfile v
+            SELECT v FROM BonusDisbursement v
             WHERE v.isDeleted = false
               AND (:empOrgId IS NULL OR v.empOrgId = :empOrgId)
               AND (:empBranchId IS NULL OR v.empBranchId = :empBranchId)
@@ -28,7 +22,7 @@ public interface EmployeeBonusProfileRepository extends BaseRepository<EmployeeB
               AND (:bonusType IS NULL OR v.bonusType = :bonusType)
               AND (:bonusDate IS NULL OR v.bonusDate = :bonusDate)
             """)
-    Page<EmployeeBonusProfile> searchCriteria(
+    Page<BonusDisbursement> searchCriteria(
             @Param("empOrgId") String empOrgId,
             @Param("empBranchId") String empBranchId,
             @Param("bonusYear") Integer bonusYear,
