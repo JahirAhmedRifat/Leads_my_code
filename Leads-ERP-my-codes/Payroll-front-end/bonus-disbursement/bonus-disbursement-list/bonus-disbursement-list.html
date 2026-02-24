@@ -1,0 +1,101 @@
+<mat-card class="w-full">
+    <!-- Search Criteria Section -->
+    <div>
+        <div class="panel">
+            <div class="transaction-grid-container">
+                <section class="header-section">
+                    <app-expansion-panel-header [isOpenSignal]="searchCriteria"
+                        [panelTitle]="'Search Criteria'" />
+                </section>
+
+                @if(searchCriteria()){
+                    <div class="p-1">
+                        <div class="grid md:grid-cols-6 gap-x-4">
+                            
+                            <input-select-option-field 
+                                [frmGroup]="frmGroup" 
+                                controlName="empOrgId" 
+                                label="Organization"
+                                [displayMode]="'vertical'" 
+                                [options]="organizationOptions" 
+                                [searchable]="true"
+                                (onSelect)="onOrganizationChange($event.selectedKey)" 
+                            />
+
+                            <input-select-option-field
+                                [frmGroup]="frmGroup" 
+                                controlName="empBranchId" 
+                                label="Branch"
+                                [displayMode]="'vertical'" 
+                                [options]="branchOptions" 
+                                [searchable]="true" 
+                            />
+
+                            <input-select-option-field
+                                [frmGroup]="frmGroup" 
+                                controlName="bonusYear" 
+                                label="Bonus Year"
+                                [displayMode]="'vertical'" 
+                                [options]="bonusYearOptions" 
+                                [searchable]="true"
+                                (onSelect)="onBonusYearChange($event.selectedKey)"
+                            />
+
+                            <input-select-option-field
+                                [frmGroup]="frmGroup" 
+                                controlName="bonusType" 
+                                label="Bonus Type"
+                                [displayMode]="'vertical'" 
+                                [options]="bonusTypeOptions"
+                                [searchable]="true" 
+                            />
+
+                            <!-- Bonus Date -->
+                            <input-date
+                              [frmGroup]="frmGroup"
+                              controlName="bonusDate"
+                              [label]="'Bonus Date'"
+                              [dateFormat]="'DD-MM-YYYY'"
+                            />
+
+                            <div>
+                                <div class="flex mt-3">
+                                    <div class="grid sm:grid-cols-2 gap-1">
+                                    <generic-button label="Search" icon="search" (onClick)="search()" />
+                                    <generic-button label="Reset" icon="refresh" (onClick)="reset()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Grid Section -->
+  <div class="panel">
+    <div class="transaction-grid-container mb-3">
+        <section class="header-section">
+            <app-expansion-panel-header 
+                [isOpenSignal]="bonusDisbursementInfo"
+                [panelTitle]="'Bonus Disbursement List'"
+            />
+       </section>
+
+        @if(bonusDisbursementInfo()){
+            <div class="">
+                <generic-data-grid 
+                    [id]="'bonus-disbursement-list'" 
+                    [dataSource]="dataSource()"
+                    [initPageSize]="pageSize" 
+                    [useInlineEdit]="false"
+                    [selectedColumns]="selectedColumns" 
+                    [customColumnNames]="customColumnNames"
+                    [numberColumns]="numberColumns"                  
+                />
+            </div>
+        }
+    </div>
+  </div>
+</mat-card>

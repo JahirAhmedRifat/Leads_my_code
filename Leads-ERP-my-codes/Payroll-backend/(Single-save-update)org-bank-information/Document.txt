@@ -1,0 +1,3 @@
+1. single save/update set enum for status.
+2. after save company name, branch name and    currency name get from centino and show the response.
+3. same logic is added for search criteria. 

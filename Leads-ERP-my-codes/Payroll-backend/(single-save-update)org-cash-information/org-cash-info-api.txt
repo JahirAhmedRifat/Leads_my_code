@@ -1,0 +1,200 @@
+
+------------------- Save ------------
+Post: http://localhost:8106/payroll/v1/org-cash-information
+
+Request: 
+		{
+		  "companyId": 1,
+		  "branchId": 1,
+		  "cashRegName": "Main Cash Counter",
+		  "cashRegNumber": "12345678901234567890",
+		  "status": "ACTIVE"
+		}
+
+Response: 
+		{
+			"message": "Resource Create Successfully",
+			"payload": {
+				"id": 1,
+				"uuid": "4ceba8dd-3466-4b0f-8591-d0267008e7fe",
+				"companyId": 1,
+				"branchId": 1,
+				"cashRegName": "Main Cash Counter",
+				"cashRegNumber": "12345678901234567890",
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}
+		
+------------------- update  ------------
+Put: http://localhost:8106/payroll/v1/org-cash-information
+
+Request:
+		{
+			"uuid": "41e34909-c858-49a9-a2df-90a790ed7d97",
+			"companyId": 1,
+			"branchId": 2,
+			"cashRegName": "Main Cash Counter",
+			"cashRegNumber": "12345678901234567895",
+			"status": "ACTIVE"
+		}
+
+Response: 
+		{
+			"message": "Resource Update Successfully",
+			"payload": {
+				"id": 3,
+				"uuid": "41e34909-c858-49a9-a2df-90a790ed7d97",
+				"companyId": 1,
+				"branchId": 2,
+				"cashRegName": "Main Cash Counter",
+				"cashRegNumber": "12345678901234567895",
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}
+			
+------------------- list data with pagination ------------
+
+Get: http://localhost:8106/payroll/v1/org-cash-information/0/25
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 3,
+						"uuid": "41e34909-c858-49a9-a2df-90a790ed7d97",
+						"companyId": 1,
+						"branchId": 2,
+						"cashRegName": "Main Cash Counter",
+						"cashRegNumber": "12345678901234567895",
+						"status": "ACTIVE",
+						"isDeleted": false
+					},
+					{
+						"id": 2,
+						"uuid": "5d684784-db68-4a30-8f2c-125a55339346",
+						"companyId": 1,
+						"branchId": 2,
+						"cashRegName": "Main Cash Counter",
+						"cashRegNumber": "12345678901234567893",
+						"status": "ACTIVE",
+						"isDeleted": false
+					}
+				],
+				"totalElements": 2,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}
+		
+------------------- get by uuid ------------
+
+Get: http://localhost:8106/payroll/v1/org-cash-information/5d684784-db68-4a30-8f2c-125a55339346
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "5d684784-db68-4a30-8f2c-125a55339346",
+				"companyId": 1,
+				"branchId": 2,
+				"cashRegName": "Main Cash Counter",
+				"cashRegNumber": "12345678901234567893",
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}		
+		
+------------------- Delete by uuid ------------
+
+Delete: http://localhost:8106/payroll/v1/org-cash-information/5d684784-db68-4a30-8f2c-125a55339346
+
+Response: 
+		{
+			"message": "Resource Delete Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "5d684784-db68-4a30-8f2c-125a55339346",
+				"companyId": 1,
+				"branchId": 2,
+				"cashRegName": "Main Cash Counter",
+				"cashRegNumber": "12345678901234567893",
+				"status": "ACTIVE",
+				"isDeleted": true
+			},
+			"status": true
+		}		
+		
+
+------------------- search ------------
+Post: http://localhost:8106/payroll/v1/org-cash-information/search
+
+Request:
+		{
+			
+			"companyId": 1,
+			"branchId": 2,
+			"cashRegName": "Main Cash Counter",
+			"cashRegNumber": "12345678901234567890",
+			"pageIndex":0,
+			"pageSize":25
+		
+		}
+
+Response: 
+		{
+    "message": "Data fetched successfully",
+    "payload": {
+        "content": [
+            {
+                "id": 1,
+                "uuid": "4ceba8dd-3466-4b0f-8591-d0267008e7fe",
+                "companyId": 1,
+                "branchId": 2,
+                "cashRegName": "Main Cash Counter",
+                "cashRegNumber": "12345678901234567890",
+                "status": "ACTIVE",
+                "isDeleted": false
+            }
+        ],
+        "totalElements": 1,
+        "totalPages": 1,
+        "page": 0,
+        "size": 25,
+        "first": true,
+        "last": true,
+        "hasNext": false,
+        "hasPrevious": false
+    },
+    "status": true
+}
+
+
+
+bankName: [
+      { key: 1, value: 'ABC BANK LTD.',label: 'ABC BANK LTD.' },
+      { key: 2, value: 'SOUTHEAST BANK LTD.' ,label: 'SOUTHEAST BANK LTD.'},
+      { key: 11, value: 'AGRANI BANK LTD.', label: 'AGRANI BANK LTD.' },
+      { key: 12, value: 'JANATA BANK LTD.' ,  label: 'JANATA BANK LTD.'},
+      { key: 14, value: 'RUPALI BANK LTD.',label: 'RUPALI BANK LTD.' }
+    ],
+    branchName: [
+      { key: 1, value: '0001-Head office', label: '0001-Head office' },
+      { key: 2, value: '2-Principal Branch' , label: '2-Principal Branch' },
+      { key: 5, value: '5-Laldighirpar Branch' , label: '5-Laldighirpar Branch' },
+      { key: 9, value: '9-Moulvi Bazar Branch' ,label: '9-Moulvi Bazar Branch' },
+      { key: 10, value: '10-Gulshan Branch', label: '10-Gulshan Branch' }
+    ],

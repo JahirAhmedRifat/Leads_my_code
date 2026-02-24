@@ -1,0 +1,262 @@
+
+------------------- Save ------------
+Post: http://localhost:8106/payroll/v1/org-bank-information
+
+Request: 
+		{
+			"companyId": 1,
+			"branchId": 1,
+			"routingNumber": "1234567890",
+			"bankName": 1,
+			"bankBranch": 1,
+			"accountType": 3,
+			"accountName": "Test Account",
+			"accountNumber": "9876543210",
+			"currency": 1,
+			"glAccountNo": "12345678901234567890",
+			"glAccountCategory": 1,
+			"status": "ACTIVE"
+		}
+
+Response: 
+		{
+			"message": "Resource Create Successfully",
+			"payload": {
+				"id": 27,
+				"uuid": "53b312e1-a56f-4e89-9b07-027fad1c46e5",
+				"companyId": 1,
+				"branchId": 1,
+				"routingNumber": "1234567890",
+				"bankName": 1,
+				"bankNm": "ABC BANK LTD.",
+				"bankBranch": 1,
+				"bankBranchNm": "1-Head office",
+				"accountType": 3,
+				"accountName": "Test Account",
+				"accountNumber": "9876543210",
+				"currency": 1,
+				"glAccountNo": "12345678901234567890",
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}
+------------------- list data with pagination ------------
+
+Get: http://localhost:8106/payroll/v1/org-bank-information/0/25
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 2,
+						"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+						"companyId": 1,
+						"branchId": 1,
+						"routingNumber": "1234567890",
+						"bankName": 1,
+						"bankBranch": 1,
+						"accountType": 1,
+						"accountName": "Test Account",
+						"accountNumber": "9876543213",
+						"currency": 1,
+						"glAccountNo": "12345678901234567890",
+						"glAccountCategory": 1,
+						"status": "ACTIVE",
+						"isDeleted": false
+					},
+					{
+						"id": 1,
+						"uuid": "ff4ddb60-b941-4b85-b7d9-f9c291347e9a",
+						"companyId": 1,
+						"branchId": 1,
+						"routingNumber": "1234567890",
+						"bankName": 1,
+						"bankBranch": 1,
+						"accountType": 1,
+						"accountName": "Test Account",
+						"accountNumber": "9876543210",
+						"currency": 1,
+						"glAccountNo": "12345678901234567890",
+						"glAccountCategory": 1,
+						"status": "ACTIVE",
+						"isDeleted": false
+					}
+				],
+				"totalElements": 2,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}	
+		
+------------------- get by uuid ------------
+
+Get: http://localhost:8106/payroll/v1/org-bank-information/50a31be7-d0e2-44b8-9a4d-f77894788ddc
+
+Response: 
+		{
+			"message": "Resource Fetch Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+				"companyId": 1,
+				"branchId": 1,
+				"routingNumber": "1234567890",
+				"bankName": 1,
+				"bankBranch": 1,
+				"accountType": 1,
+				"accountName": "Test Account",
+				"accountNumber": "9876543213",
+				"currency": 1,
+				"glAccountNo": "12345678901234567890",
+				"glAccountCategory": 1,
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}		
+		
+------------------- Delete by uuid ------------
+
+Delete: http://localhost:8106/payroll/v1/org-bank-information/50a31be7-d0e2-44b8-9a4d-f77894788ddc
+
+Response: 
+		{
+			"message": "Resource Delete Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+				"companyId": 1,
+				"branchId": 1,
+				"routingNumber": "1234567890",
+				"bankName": 1,
+				"bankBranch": 1,
+				"accountType": 1,
+				"accountName": "Test Account",
+				"accountNumber": "9876543213",
+				"currency": 1,
+				"glAccountNo": "12345678901234567890",
+				"glAccountCategory": 1,
+				"status": "ACTIVE",
+				"isDeleted": true
+			},
+			"status": true
+		}		
+		
+------------------- update  ------------
+Put: http://localhost:8106/payroll/v1/org-bank-information
+
+Request:
+		{
+			"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+			"companyId": 1,
+			"branchId": 1,
+			"routingNumber": "1234567890",
+			"bankName": 1,
+			"bankBranch": 1,
+			"accountType": 1,
+			"accountName": "Test Account",
+			"accountNumber": "9876543213",
+			"currency": 1,
+			"glAccountNo": "12345678901234567890",
+			"glAccountCategory": 1,
+			"status": "ACTIVE",
+			"isDeleted": false
+		}
+
+Response: 
+		{
+			"message": "Resource Update Successfully",
+			"payload": {
+				"id": 2,
+				"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+				"companyId": 1,
+				"branchId": 1,
+				"routingNumber": "1234567890",
+				"bankName": 1,
+				"bankBranch": 1,
+				"accountType": 1,
+				"accountName": "Test Account",
+				"accountNumber": "9876543213",
+				"currency": 1,
+				"glAccountNo": "12345678901234567890",
+				"glAccountCategory": 1,
+				"status": "ACTIVE",
+				"isDeleted": false
+			},
+			"status": true
+		}
+	
+------------------- search ------------
+Post: http://localhost:8106/payroll/v1/org-bank-information/search
+
+Request:
+		{
+			"companyId": 1,
+			"branchId": 1,
+			"bankName": 1,
+			"bankBranch": 1,
+			"pageIndex":0,
+			"pageSize":25
+		}
+
+Response: 
+		{
+			"message": "Data fetched successfully",
+			"payload": {
+				"content": [
+					{
+						"id": 2,
+						"uuid": "50a31be7-d0e2-44b8-9a4d-f77894788ddc",
+						"companyId": 1,
+						"branchId": 1,
+						"routingNumber": "1234567890",
+						"bankName": 1,
+						"bankBranch": 1,
+						"accountType": 1,
+						"accountName": "Test Account",
+						"accountNumber": "9876543213",
+						"currency": 1,
+						"glAccountNo": "12345678901234567890",
+						"glAccountCategory": 1,
+						"status": "ACTIVE",
+						"isDeleted": false
+					},
+					{
+						"id": 1,
+						"uuid": "ff4ddb60-b941-4b85-b7d9-f9c291347e9a",
+						"companyId": 1,
+						"branchId": 1,
+						"routingNumber": "1234567890",
+						"bankName": 1,
+						"bankBranch": 1,
+						"accountType": 1,
+						"accountName": "Test Account",
+						"accountNumber": "9876543210",
+						"currency": 1,
+						"glAccountNo": "12345678901234567890",
+						"glAccountCategory": 1,
+						"status": "ACTIVE",
+						"isDeleted": false
+					}
+				],
+				"totalElements": 2,
+				"totalPages": 1,
+				"page": 0,
+				"size": 25,
+				"first": true,
+				"last": true,
+				"hasNext": false,
+				"hasPrevious": false
+			},
+			"status": true
+		}	
+	

@@ -82,7 +82,7 @@ public interface EmployeeHeldupRepository extends BaseRepository<EmployeeHeldup>
     """)
     List<EmployeeHeldup> findHeldupByEmployeesAndDate(
             @Param("employeeIds") Set<String> employeeIds,
-            @Param("heldupType") String heldupType,
+            @Param("heldupType") HeldupType heldupType,
             @Param("checkDate") LocalDate checkDate
     );
 
