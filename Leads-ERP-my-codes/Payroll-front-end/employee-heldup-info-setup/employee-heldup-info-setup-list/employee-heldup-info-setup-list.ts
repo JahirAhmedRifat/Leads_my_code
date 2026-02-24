@@ -13,16 +13,13 @@ import {
 } from '../../../../shared/constant/constant';
 import { Router } from '@angular/router';
 import { ToastHelperService } from '../../../../shared/services/toast-helper.service';
-import { BUTTON_VISIBILITY } from '../../../../shared/constant/button-signals.constant';
 import { EmployeeHeldupInfoSetupService } from '../../service/employee-heldup-info-setup.service';
 import { ExpansionPanelHeader } from '../../../../shared/common-components/expansion-panel-header/expansion-panel-header';
-import { ExpansionSubPanelHeader } from '../../../../shared/common-components/expansion-sub-panel-header/expansion-sub-panel-header';
 import { InputTextBox } from '../../../../shared/common-components/input-types/input-text-box/input-text-box';
 import { InputDate } from '../../../../shared/common-components/input-types/input-date/input-date';
 import { InputSelectOptionField } from '../../../../shared/common-components/input-types/input-select-option-field/input-select-option-field';
 import { GenericButton } from '../../../../shared/common-components/generic-component-type/generic-button/generic-button';
 import { GenericDataGrid } from '../../../../shared/common-components/generic-component-type/generic-data-grid';
-import { ConfirmationDialogue } from '../../../../shared/common-components/confirmation-dialogue/confirmation-dialogue';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -55,7 +52,6 @@ import { forkJoin } from 'rxjs';
     InputTextBox,
     GenericDataGrid,
     InputSelectOptionField,
-    ConfirmationDialogue,
     InputDate,
   ],
   templateUrl: './employee-heldup-info-setup-list.html',

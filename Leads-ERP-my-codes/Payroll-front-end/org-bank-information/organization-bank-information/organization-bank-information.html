@@ -1,0 +1,135 @@
+<div class="page-wrapper">
+    <div class="panel">
+        <div class="transaction-grid-container">
+
+            <!-- Organization Bank Information -->
+            <section class="header-section">
+                <app-expansion-panel-header [isOpenSignal]="organizationBankInformation"
+                    [panelTitle]="'Organization Bank Information'">
+                </app-expansion-panel-header>
+
+                @if(organizationBankInformation()){
+                <div class="mt-2">
+                    <div class="grid md:grid-cols-3 gap-x-4" [formGroup]="frmGroup">
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="companyId" 
+                            label="Organization"
+                            [displayMode]="'vertical'" 
+                            [options]="organizationOptions" 
+                            [searchable]="true"
+                            (onSelect)="onOrganizationChange($event.selectedKey)" 
+                        />
+
+                        <input-select-option-field
+                            [frmGroup]="frmGroup" 
+                            controlName="branchId" 
+                            label="Branch"
+                            [displayMode]="'vertical'" 
+                            [options]="organizationBranchOptions" 
+                            [searchable]="true" 
+                            (onSelect)="onBranchChange($event.selectedKey)"
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            [controlName]="'routingNumber'" 
+                            [label]="'Routing Number'"
+                            displayMode="vertical"
+                            [type]="'number'" 
+                            [isReadonly]="true"     
+                            [placeholder]="'Enter routing no...'"                         
+                        />
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="bankName" 
+                            label="Bank Name"
+                            [displayMode]="'vertical'" 
+                            [options]="bankNameOptions" 
+                            [searchable]="true" 
+                        />
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="bankBranch" 
+                            label="Bank Branch"
+                            [displayMode]="'vertical'" 
+                            [options]="branchNameOptions" 
+                            [searchable]="true" 
+                        />
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="accountType" 
+                            label="Account Type"
+                            [displayMode]="'vertical'" 
+                            [options]="accountTypeOptions" 
+                            [searchable]="true" 
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            controlName="accountName" 
+                            label="Account Name"
+                            [isVertical]="true" 
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            [controlName]="'accountNumber'" 
+                            [label]="'Account Number'"
+                            displayMode="vertical"                           
+                            [type]="'number'"                                            
+                            [placeholder]="'Enter account no...'"                           
+                        />
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="currency" 
+                            label="Currency"
+                            [displayMode]="'vertical'" 
+                            [options]="currencyOptions" 
+                            [searchable]="true" 
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            [controlName]="'glAccountNo'" 
+                            [label]="'GL Account Number'"
+                            displayMode="vertical"                           
+                            [type]="'number'"                                             
+                            [placeholder]="'Enter GL account no...'"
+                        />
+
+                        <!-- <generic-multi-select-option [frmGroup]="frmGroup" [controlName]="'paymentMethod'"
+                            [label]="'Payment Method'" displayMode="vertical"
+                            [options]="paymentMethodOptions"></generic-multi-select-option> -->
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="status" 
+                            label="Status"
+                            [displayMode]="'vertical'" 
+                            [options]="statusOptions" 
+                            [searchable]="true" 
+                        />
+
+                    </div>
+                </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+
+ <!-- Organization Bank Information view Modal -->
+ <generic-modal 
+    [isVisible]="isModalShow" 
+    [modalTitle]="'Organization Bank Information List'" 
+    [modalComponent]="organizationBankInfoListModal"
+    [cssClass]="'modal-xl'"
+    (modalClosed)="isModalShow = false;"
+    (modalResult)="getModalResult($event)">
+</generic-modal>

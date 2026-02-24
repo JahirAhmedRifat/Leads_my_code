@@ -1,0 +1,108 @@
+<mat-card class="w-full">
+    <!-- Search Criteria Section -->
+    <div>
+        <div class="panel">
+            <div class="transaction-grid-container">
+                <section class="header-section">
+                    <app-expansion-panel-header [isOpenSignal]="searchCriteria"
+                        [panelTitle]="'Search Criteria'" />
+                </section>
+
+                @if(searchCriteria()){
+                    <div class="p-1">
+                        <div class="grid md:grid-cols-5 gap-x-4">
+                            
+                            <input-select-option-field 
+                                [frmGroup]="frmGroup" 
+                                controlName="companyId" 
+                                label="Organization"
+                                [displayMode]="'vertical'" 
+                                [options]="organizationOptions" 
+                                [searchable]="true"
+                                (onSelect)="onOrganizationChange($event.selectedKey)" 
+                            />
+
+                            <input-select-option-field
+                                [frmGroup]="frmGroup" 
+                                controlName="branchId" 
+                                label="Branch"
+                                [displayMode]="'vertical'" 
+                                [options]="organizationBranchOptions" 
+                                [searchable]="true" 
+                            />
+
+                            <input-select-option-field 
+                                [frmGroup]="frmGroup" 
+                                controlName="bankName" 
+                                label="Bank Name"
+                                [displayMode]="'vertical'" 
+                                [options]="bankNameOptions" 
+                                [searchable]="true" 
+                            />
+
+                            <input-select-option-field 
+                                [frmGroup]="frmGroup" 
+                                controlName="bankBranch" 
+                                label="Bank Branch"
+                                [displayMode]="'vertical'" 
+                                [options]="branchNameOptions" 
+                                [searchable]="true" 
+                            />
+
+                            <div>
+                                <div class="flex mt-3">
+                                    <div class="grid sm:grid-cols-2 gap-1">
+                                    <generic-button label="Search" icon="search" (onClick)="search()" />
+                                    <generic-button label="Reset" icon="refresh" (onClick)="reset()" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Grid Section -->
+  <div class="panel mt-3">
+    <div class="transaction-grid-container mb-3">
+        <section class="header-section">
+            <app-expansion-panel-header 
+                [isOpenSignal]="organizationalBankInfoListGrid"
+                [panelTitle]="'Bank Information List'" 
+            />
+       </section>
+
+        @if(organizationalBankInfoListGrid()){
+            <div class="">
+                <generic-data-grid 
+                    [id]="'organization-bank-information-list'" 
+                    [dataSource]="dataSource()"
+                    [initPageSize]="pageSize" 
+                    [showEditButton]="true" 
+                    [showDeleteButton]="true" 
+                    [useInlineEdit]="false"
+                    [selectedColumns]="selectedColumns" 
+                    [customColumnNames]="customColumnNames"
+                    (onFHEditClick)="editItem($event)" 
+                    (onFHDeleteClick)="deleteItem($event)"
+                />
+            </div>
+        }
+    </div>
+  </div>
+</mat-card>
+
+<!-- Delete Confirmation Dialog -->
+@if (showDeleteConfirmation()) {
+    <confirmation-dialogue
+    [isOpen]="true"
+    [title]="'Delete Organizational Bank Information'"
+    [message]="
+        'Are you sure you want to delete! '"
+    [variant]="'danger'"
+    (buttonClick)="onDeleteConfirm($event)"
+    (close)="showDeleteConfirmation.set(false)"
+    />
+}

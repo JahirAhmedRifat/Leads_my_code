@@ -1,0 +1,75 @@
+<div class="page-wrapper">
+    <div class="panel">
+        <div class="transaction-grid-container">
+
+            <!-- Organization Cash Information -->
+            <section class="header-section">
+                <app-expansion-panel-header [isOpenSignal]="organizationCashInformation"
+                    [panelTitle]="'Organization Cash Information'">
+                </app-expansion-panel-header>
+
+                @if(organizationCashInformation()){
+                <div class="mt-2">
+                    <div class="grid md:grid-cols-3 gap-x-4" [formGroup]="frmGroup">
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="companyId" 
+                            label="Organization"
+                            [displayMode]="'vertical'" 
+                            [options]="organizationOptions" 
+                            [searchable]="true"
+                            (onSelect)="onOrganizationChange($event.selectedKey)" 
+                        />
+
+                        <input-select-option-field
+                            [frmGroup]="frmGroup" 
+                            controlName="branchId" 
+                            label="Branch"
+                            [displayMode]="'vertical'" 
+                            [options]="organizationBranchOptions" 
+                            [searchable]="true"
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            controlName="cashRegName" 
+                            label="Cash Registration Name"
+                            [isVertical]="true" 
+                        />
+
+                        <input-text-box 
+                            [frmGroup]="frmGroup" 
+                            [controlName]="'cashRegNumber'" 
+                            [label]="'Cash Registration Number'"
+                            displayMode="vertical"                           
+                            [type]="'number'"              
+                            [placeholder]="'Enter Registration no...'"
+                        />
+
+                        <input-select-option-field 
+                            [frmGroup]="frmGroup" 
+                            controlName="status" 
+                            label="Status"
+                            [displayMode]="'vertical'" 
+                            [options]="statusOptions" 
+                            [searchable]="true" 
+                        />
+
+                    </div>
+                </div>
+                }
+            </section>
+        </div>
+    </div>
+</div>
+
+ <!-- Organization Cash Information view Modal -->
+ <generic-modal 
+    [isVisible]="isModalShow" 
+    [modalTitle]="'Organization Cash Information List'" 
+    [modalComponent]="organizationInfoModal"
+    [cssClass]="'modal-xl'"
+    (modalClosed)="isModalShow = false;"
+    (modalResult)="getModalResult($event)">
+</generic-modal>
